@@ -21,5 +21,6 @@
   "bugs": {
     "url": "https://github.com/lnguyen87/employee-tracker/issues"
   },
-  "homepage": "https://github.com/lnguyen87/employee-tracker#readme"
+  "homepage": "https://github.com/lnguyen87/employee-tracker#readme",
+  "devDependencies": {}
 }
