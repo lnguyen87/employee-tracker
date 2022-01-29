@@ -77,6 +77,17 @@ function startInquirer() {
     });
 }
 
+// view all departments
+function viewDepartment() {
+  let query =
+    "SELECT Department.department_id, Department.department_name FROM Department";
+  db.query(query, function (err, res) {
+    if (err) throw err;
+    console.table(res);
+    startInquirer();
+  });
+}
+
 // GET all departments
 app.get("/api/department", (req, res) => {
   const sql = `SELECT * FROM department`;
