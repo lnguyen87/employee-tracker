@@ -1,6 +1,7 @@
 const mysql = require("mysql2");
 const express = require("express");
 const inquirer = require("inquirer");
+// const cTable = require('console.table');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -80,7 +81,29 @@ function startInquirer() {
 // view all departments
 function viewDepartment() {
   let query =
-    "SELECT Department.department_id, Department.department_name FROM Department";
+    "SELECT department.department_id, department.department_name FROM department";
+  db.query(query, function (err, res) {
+    if (err) throw err;
+    console.table(res);
+    startInquirer();
+  });
+}
+
+// view all roles
+function viewRole() {
+  let query =
+    "SELECT role.role_id, role.title, role.salary, role.department_id FROM role";
+  db.query(query, function (err, res) {
+    if (err) throw err;
+    console.table(res);
+    startInquirer();
+  });
+}
+
+// view all employees
+function viewEmployee() {
+  let query =
+    "SELECT employee.employee_id, employee.first_name, employee.last_name, employee.role_id, employee.manager_id FROM employee";
   db.query(query, function (err, res) {
     if (err) throw err;
     console.table(res);
