@@ -22,9 +22,68 @@ const db = mysql.createConnection(
   console.log("Connected to the employee tracker database.")
 );
 
-app.get("/", (req, res) => {
-  res.json({
-    message: "Hello World",
+// GET all departments
+app.get("/api/department", (req, res) => {
+  const sql = `SELECT * FROM department`;
+
+  db.query(sql, (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    res.json({
+      message: "success",
+      data: rows,
+    });
+  });
+});
+
+// GET all roles
+app.get("/api/role", (req, res) => {
+  const sql = `SELECT * FROM role`;
+
+  db.query(sql, (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    res.json({
+      message: "success",
+      data: rows,
+    });
+  });
+});
+
+// GET a single employee
+app.get("/api/employee/:id", (req, res) => {
+  const sql = `SELECT * FROM employee WHERE id = ?`;
+  const params = [req.params.id];
+
+  db.query(sql, params, (err, row) => {
+    if (err) {
+      res.status(400).json({ error: err.message });
+      return;
+    }
+    res.json({
+      message: "success",
+      data: row,
+    });
+  });
+});
+
+// GET all employees
+app.get("/api/employee", (req, res) => {
+  const sql = `SELECT * FROM employee`;
+
+  db.query(sql, (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    res.json({
+      message: "success",
+      data: rows,
+    });
   });
 });
 
