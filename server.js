@@ -1,6 +1,6 @@
-// const inquirer = require("inquirer");
 const mysql = require("mysql2");
 const express = require("express");
+const inquirer = require("inquirer");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -21,6 +21,61 @@ const db = mysql.createConnection(
   },
   console.log("Connected to the employee tracker database.")
 );
+
+// runs inquirer
+db.connect(function (err) {
+  if (err) throw err;
+  startInquirer();
+});
+
+function startInquirer() {
+  inquirer
+    .prompt({
+      type: "list",
+      name: "start",
+      message: "Please select from the following options.",
+      choices: [
+        "View all departments",
+        "View all roles",
+        "View all employees",
+        "Add a department",
+        "Add a role",
+        "Add an employee",
+        "Update an employee role",
+      ],
+    })
+    .then(function (choice) {
+      switch (choice.start) {
+        case "View all departments":
+          viewDepartment();
+          break;
+
+        case "View all roles":
+          viewRole();
+          break;
+
+        case "View all employees":
+          viewEmployee();
+          break;
+
+        case "Add a department":
+          addDepartment();
+          break;
+
+        case "Add a role":
+          addRole();
+          break;
+
+        case "Add an employee":
+          addEmployee();
+          break;
+
+        case "Update an employee role":
+          updateEmployee();
+          break;
+      }
+    });
+}
 
 // GET all departments
 app.get("/api/department", (req, res) => {
