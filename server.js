@@ -17,7 +17,7 @@ const db = mysql.createConnection(
     // Your MySQL username,
     user: "root",
     // Your MySQL password
-    password: "Nguyen*1",
+    password: "password",
     database: "employee_tracker",
   },
   console.log("Connected to the employee tracker database.")
@@ -206,6 +206,68 @@ function addRole() {
             }
             console.log("A new role has been added.");
             viewRole();
+          }
+        );
+      });
+  });
+}
+
+// create new employee
+function addEmployee() {
+  let query = "SELECT * FROM role";
+  db.query(query, function (err, res) {
+    if (err) throw err;
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "addFirstName",
+          message: "What is the first name of the employee?",
+          validate: (firstnameInput) => {
+            if (firstnameInput) {
+              return true;
+            } else {
+              console.log("Please enter a first name!");
+              return false;
+            }
+          },
+        },
+        {
+          type: "input",
+          name: "addLastName",
+          message: "What is the last name of the employee?",
+          validate: (lastnameInput) => {
+            if (lastnameInput) {
+              return true;
+            } else {
+              console.log("Please enter a last name!");
+              return false;
+            }
+          },
+        },
+        {
+          type: "list",
+          name: "addRoleId",
+          message: "Please enter the role ID for this employee.",
+          choices: [1, 2, 3, 4, 5],
+        },
+        {
+          type: "list",
+          name: "addManagerId",
+          message: "Please select the manager this employee reports to.",
+          choices: [1, 2],
+        },
+      ])
+      .then((res) => {
+        db.query(
+          `INSERT INTO employee (first_name, last_name, role_id, manager_id)
+          VALUES ('${res.addFirstName}', '${res.addLastName}', '${res.addRoleId}', '${res.addManagerId}')`,
+          (err, data) => {
+            if (err) {
+              throw err;
+            }
+            console.log("A new employee has been added.");
+            viewEmployee();
           }
         );
       });
