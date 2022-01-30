@@ -14,7 +14,7 @@ app.use(express.json());
 const db = mysql.createConnection(
   {
     host: "localhost",
-    // Your MySQL usernae,
+    // Your MySQL username,
     user: "root",
     // Your MySQL password
     password: "password",
@@ -108,6 +108,41 @@ function viewEmployee() {
     if (err) throw err;
     console.table(res);
     startInquirer();
+  });
+}
+
+// create new department
+function addDepartment() {
+  let query = "SELECT * FROM department";
+  db.query(query, function (err, res) {
+    if (err) throw err;
+    inquirer
+      .prompt({
+        type: "input",
+        name: "addDept",
+        message: "What is the name of the department?",
+        validate: (deptInput) => {
+          if (deptInput) {
+            return true;
+          } else {
+            console.log("Please enter a department name!");
+            return false;
+          }
+        },
+      })
+      .then((res) => {
+        db.query(
+          `INSERT INTO department (department_name)
+          VALUES ('${res.addDept}')`,
+          (err, data) => {
+            if (err) {
+              throw err;
+            }
+            console.log("Department has been added.");
+            viewDepartment();
+          }
+        );
+      });
   });
 }
 
