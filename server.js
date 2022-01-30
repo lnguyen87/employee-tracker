@@ -120,7 +120,7 @@ function addDepartment() {
       .prompt({
         type: "input",
         name: "addDept",
-        message: "What is the name of the department?",
+        message: "What is the name of the new department?",
         validate: (deptInput) => {
           if (deptInput) {
             return true;
@@ -140,6 +140,72 @@ function addDepartment() {
             }
             console.log("Department has been added.");
             viewDepartment();
+          }
+        );
+      });
+  });
+}
+
+// create new role
+function addRole() {
+  let query = "SELECT * FROM role";
+  let deptQuery = "SELECT * FROM department";
+  db.query(query, function (err, res) {
+    if (err) throw err;
+    inquirer
+      .prompt(
+        {
+          type: "input",
+          name: "addTitle",
+          message: "What is the title of the new role?",
+          validate: (titleInput) => {
+            if (titleInput) {
+              return true;
+            } else {
+              console.log("Please enter a role title!");
+              return false;
+            }
+          },
+        },
+        {
+          type: "number",
+          name: "addSalary",
+          message: "What is the salary for the new role?",
+          validate: (salaryInput) => {
+            if (salaryInput) {
+              return true;
+            } else {
+              console.log("Please enter a salary for the new role!");
+              return false;
+            }
+          },
+        },
+        {
+          type: "input",
+          name: "addId",
+          message: "Please enter the department ID for this role.",
+          validate: (idInput) => {
+            if (idInput) {
+              return true;
+            } else {
+              console.log(
+                "Please enter a department ID associated to this role!"
+              );
+              return false;
+            }
+          },
+        }
+      )
+      .then((res) => {
+        db.query(
+          `INSERT INTO role (title, salary, department_id)
+          VALUES ('${res.addRole}')`,
+          (err, data) => {
+            if (err) {
+              throw err;
+            }
+            console.log("A new role has been added.");
+            viewRole();
           }
         );
       });
