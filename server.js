@@ -17,7 +17,7 @@ const db = mysql.createConnection(
     // Your MySQL username,
     user: "root",
     // Your MySQL password
-    password: "password",
+    password: "Nguyen*1",
     database: "employee_tracker",
   },
   console.log("Connected to the employee tracker database.")
@@ -149,11 +149,11 @@ function addDepartment() {
 // create new role
 function addRole() {
   let query = "SELECT * FROM role";
-  let deptQuery = "SELECT * FROM department";
+  // let deptQuery = "SELECT * FROM department";
   db.query(query, function (err, res) {
     if (err) throw err;
     inquirer
-      .prompt(
+      .prompt([
         {
           type: "input",
           name: "addTitle",
@@ -194,12 +194,12 @@ function addRole() {
               return false;
             }
           },
-        }
-      )
+        },
+      ])
       .then((res) => {
         db.query(
           `INSERT INTO role (title, salary, department_id)
-          VALUES ('${res.addRole}')`,
+          VALUES ('${res.addTitle}', '${res.addSalary}', '${res.addId}')`,
           (err, data) => {
             if (err) {
               throw err;
