@@ -39,7 +39,7 @@ Simple Employee Tracker using Inquirer and MySQL
 
 ## Usage
 
-https://watch.screencastify.com/v/6vg638yHT5Wx2oVCvREe
+https://watch.screencastify.com/v/flwKBhEQV4NAJI3Ex0is
 
 ![video preview](assets/sample.gif)
 
